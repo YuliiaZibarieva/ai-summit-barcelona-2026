@@ -139,7 +139,14 @@ Run it with `node src/server.js` and it listens on port 3000.
 ```bash
 curl http://localhost:3000/tasks
 curl -X POST http://localhost:3000/tasks -d '{"title":"write the talk"}'
+curl -X PATCH http://localhost:3000/tasks/1 -H 'Content-Type: application/json' -d '{"title":"update the talk"}'
 ```
+
+`PATCH /tasks/:id` updates a task's title and returns the updated task with status 200.
+Titles must be non-empty strings of at most 140 characters. Invalid JSON or titles
+return 400; a missing task returns 404. Other task fields are preserved.
+
+Run the tests with `npm test`.
 
 ---
 

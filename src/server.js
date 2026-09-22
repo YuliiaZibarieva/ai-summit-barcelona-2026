@@ -1,5 +1,5 @@
 import http from "node:http";
-import { listTasks, createTask, completeTask } from "./handlers.js";
+import { listTasks, createTask, completeTask, updateTaskTitle } from "./handlers.js";
 
 const PORT = 3000;
 
@@ -14,6 +14,10 @@ const server = http.createServer((req, res) => {
     }
     if (req.method === "POST" && url === "/tasks") {
       return createTask(req, res, body);
+    }
+    const taskMatch = /^\/tasks\/([1-9]\d*)$/.exec(url);
+    if (req.method === "PATCH" && taskMatch) {
+      return updateTaskTitle(req, res, taskMatch[1], body);
     }
     if (req.method === "POST" && url.startsWith("/tasks/")) {
       return completeTask(req, res, url.split("/")[2]);
